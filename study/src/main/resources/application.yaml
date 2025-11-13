@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: study
+  datasource:
+    url: jdbc:mysql://localhost:3306/study
+    username: root
+    password: dlrygud1371!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
