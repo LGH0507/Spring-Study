@@ -24,4 +24,11 @@ public class UserController {
 
     }
 
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?>addUser(@PathVariable Long userId){
+
+
+        return ResponseEntity.ok().build();
+    }
+
 }

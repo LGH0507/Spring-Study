@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class CreateUserResponse {
-    String name;
+public class DeleteUserResponse {
+    Long userId;
 
-    public CreateUserResponse(String name) {
+    public DeleteUserResponse(Long userId) {
 
-        this.name = name;
+        this.userId = userId;
     }
 
 }

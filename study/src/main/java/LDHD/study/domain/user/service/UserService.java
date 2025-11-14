@@ -26,4 +26,7 @@ public class UserService {
         return new CreateUserResponse(request.getName());
 
     }
+
+    // TODO: 사용자의 정보를 삭제하는 메소드 구현 (userRepository.delete(); 사용)
+
 }
