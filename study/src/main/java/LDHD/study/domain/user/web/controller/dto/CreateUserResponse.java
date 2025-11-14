@@ -1,6 +1,5 @@
 package LDHD.study.domain.user.web.controller.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,5 +12,11 @@ public class CreateUserResponse {
 
         this.name = name;
     }
+
+    /**
+     *      {
+     *         "name" : "이교형"
+     *      }
+     */
 
 }
