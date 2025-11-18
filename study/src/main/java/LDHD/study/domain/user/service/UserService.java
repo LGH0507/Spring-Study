@@ -1,5 +1,7 @@
 package LDHD.study.domain.user.service;
 
+import LDHD.study.common.exception.GeneralException;
+import LDHD.study.common.response.ErrorCode;
 import LDHD.study.domain.user.User;
 import LDHD.study.domain.user.repository.UserRepository;
 import LDHD.study.domain.user.web.controller.dto.*;
@@ -21,6 +23,11 @@ public class UserService {
                 request.getAddress(),
                 request.getAge()
         );
+
+        if(userRepository.existsByEmail((request.getEmail()))){
+            throw new GeneralException(ErrorCode.ALREADY_EXISTS);
+        }
+
 
         // userRepository의 save() 메소드를 호출한다.
         /* (이런 식으로 save() 메소드는 저장된 객체를 메소드로 반환) User newUser = */ userRepository.save(user);

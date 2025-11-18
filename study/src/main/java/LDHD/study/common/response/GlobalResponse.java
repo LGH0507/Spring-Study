@@ -6,19 +6,22 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * API 응답 구조를 이 구조로 통일시킨다.
+ */
 @Getter
 @RequiredArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 public class GlobalResponse {
 
-    private final Boolean isSuccess;
+    private final Boolean isSuccess; // 성공, 실패 여부
 
-    private final String code;
+    private final String code; // 상태 코드
 
-    private final String message;
+    private final String message; // 구체적인 메시지
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private final Object result;
+    private final Object result; //반환할 객체
 
     public static ResponseEntity<GlobalResponse> onSuccess(SuccessCode successCode, Object result){
         return new ResponseEntity<>(
