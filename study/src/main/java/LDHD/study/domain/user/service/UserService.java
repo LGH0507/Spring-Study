@@ -2,9 +2,7 @@ package LDHD.study.domain.user.service;
 
 import LDHD.study.domain.user.User;
 import LDHD.study.domain.user.repository.UserRepository;
-import LDHD.study.domain.user.web.controller.dto.CreateUserRequest;
-import LDHD.study.domain.user.web.controller.dto.CreateUserResponse;
-import LDHD.study.domain.user.web.controller.dto.DeleteUserResponse;
+import LDHD.study.domain.user.web.controller.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +19,8 @@ public class UserService {
         User user = new User(request.getName(),
                 request.getPassword(), // @Getter로 인해 메소드를 선언하지 않아도 사용 가능
                 request.getAddress(),
-                request.getEmail(),
-                request.getAge());
+                request.getAge()
+        );
 
         // userRepository의 save() 메소드를 호출한다.
         /* (이런 식으로 save() 메소드는 저장된 객체를 메소드로 반환) User newUser = */ userRepository.save(user);
@@ -33,6 +31,7 @@ public class UserService {
 
     }
 
+    //사용자 정보 삭제
     public DeleteUserResponse deleteUser(Long userId){
 
         userRepository.deleteById(userId);
@@ -40,6 +39,20 @@ public class UserService {
         return new DeleteUserResponse(userId);
     }
 
+    //사용자 정보 수정
+    public UpdateUserResponse updateUser(Long userId, UpdateUserRequest request, String message){
+
+        User user = userRepository.findById(userId).orElse(null);
+
+        user.setName(request.getName());
+        user.setPassword(request.getPassword());
+        user.setAddress(request.getAddress());
+        user.setAge(request.getAge());
+
+        userRepository.save(user);
+
+        return new UpdateUserResponse(userId);
+    }
     // TODO: 사용자의 정보를 삭제하는 메소드 구현 (userRepository.delete(); 사용)
 
 }

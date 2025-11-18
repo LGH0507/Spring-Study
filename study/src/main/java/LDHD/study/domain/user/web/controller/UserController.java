@@ -3,6 +3,7 @@ package LDHD.study.domain.user.web.controller;
 import LDHD.study.domain.user.service.UserService;
 import LDHD.study.domain.user.web.controller.dto.CreateUserRequest;
 import LDHD.study.domain.user.web.controller.dto.CreateUserResponse;
+import LDHD.study.domain.user.web.controller.dto.UpdateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,4 +45,11 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{userId}")
+    public ResponseEntity<?>updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request){
+
+        userService.updateUser(userId, request, "Updated Successfully!");
+
+        return ResponseEntity.ok().build();
+    }
 }
