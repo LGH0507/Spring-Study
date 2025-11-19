@@ -1,29 +1,44 @@
 package LDHD.study.domain.post;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 
+import LDHD.study.domain.user.User;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Post {
+public class Post {  // 제목,작성자,카테고리,본문,작성일자,
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
+    @Column
+    String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")//작성자 이름
+    User user;
 
     @Column
-    private String name;
+    String category;
 
     @Column
-    private String category;
+    String content;
 
-    @Column(nullable = false)
-    private String content;
+    @Column
+    LocalDateTime created_at;
 
-
-
+    public Post(String  title, User user, String category, String content, LocalDateTime created_at) {
+        this.title = title;
+        this.user = user;
+        this.category = category;
+        this.content = content;
+        this.created_at = LocalDateTime.now();
+    }
 
 }
+
