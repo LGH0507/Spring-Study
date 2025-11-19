@@ -36,5 +36,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
      */
 
     public List<User> findAllByName(String name); // -> 메소드 이름만 선언 (구체적인 안의 코드는 구현하지 않음)
+    public Boolean existsByEmail(String email);
 
 }
