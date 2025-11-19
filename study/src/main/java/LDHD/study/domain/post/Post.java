@@ -1,29 +1,48 @@
 package LDHD.study.domain.post;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 
-@Entity
-public class Post {
+import LDHD.study.domain.user.User;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-    @Id @GeneratedValue
+import java.time.LocalDateTime;
+
+@Getter //get()메서드 자동 생성
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity //엔티티로 선언
+public class Post {  // 제목,작성자,카테고리,본문,작성일자,
+
+    @Id //pk값 지정
+    @GeneratedValue //Id값 자동으로 증가
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
+    @Column
+    String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)  //다대일 관계 지정
+    @JoinColumn(name = "user_id")//작성자 이름(참조하는 외래키 이름)
+    User user;
 
     @Column
-    private String name;
+    String category;
 
     @Column
-    private String category;
+    String content;
 
-    @Column(nullable = false)
-    private String content;
+    @Column
+    LocalDateTime created_at;
 
-
-
+    public Post(String  title, User user, String category, String content, LocalDateTime created_at) {
+        this.title = title;
+        this.user = user;
+        this.category = category;
+        this.content = content;
+        this.created_at = LocalDateTime.now();
+    }
 
 }
+
