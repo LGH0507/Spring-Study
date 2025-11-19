@@ -1,5 +1,7 @@
 package LDHD.study.domain.user.web.controller;
 
+import LDHD.study.common.response.ErrorCode;
+import LDHD.study.common.response.GlobalResponse;
 import LDHD.study.domain.user.service.UserService;
 import LDHD.study.domain.user.web.controller.dto.CreateUserRequest;
 import LDHD.study.domain.user.web.controller.dto.CreateUserResponse;
@@ -45,6 +47,27 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     *
+     * 사용자 정보를 수정하는 API
+     *  - 만약, 수정을 요청한 사람이 본인이 아닐 경우
+     *  - 만약, 수정하고자 했는데 데이터베이스에 회원 정보가 없을 경우
+     *      -> 얘는 발생할 가능성이 매우 낮다. 하지만 조금이라도 발생할 가능성이 있는 부분에 대해서는 모두 예외 처리를 해야 한다.
+     *  따라서 이 API를 실행할 때, 발생할 수 있는 모든 경우를 예외 처리해야 한다.
+     *
+     *  일반적으로 Java에서는 try-catch 문으로 Exception 객체를 던지고 받아서 예외 처리를 한다.
+     *
+     *  가장 간단한 방법은 예외가 발생할 수 있는 모든 지점에 try-catch 문을 적용하는 것이다.
+     *  근데 이렇게 하면 문제가 발생할 수 있다.
+     *   - 코드가 길어진다.
+     *   - 예외 처리 로직이 모든 메소드마다 존재하기 때문에 예외 처리 방식이 바뀌면 그 코드를 하나하나 전부 다 수정해야 한다.
+     *
+     *   -> 전역 예외 처리를 둔다. -> 한 곳에서 예외 처리 로직을 관리한다.
+     *
+     * @param userId
+     * @param request
+     * @return
+     */
     @PutMapping("/{userId}")
     public ResponseEntity<?>updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request){
 
