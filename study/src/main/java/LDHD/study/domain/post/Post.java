@@ -3,13 +3,11 @@ package LDHD.study.domain.post;
 
 import LDHD.study.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Setter
 @Getter //get()메서드 자동 생성
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

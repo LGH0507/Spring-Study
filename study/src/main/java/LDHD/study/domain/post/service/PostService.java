@@ -1,14 +1,14 @@
 package LDHD.study.domain.post.service;
 
+import LDHD.study.common.exception.GeneralException;
+import LDHD.study.common.response.ErrorCode;
 import LDHD.study.domain.post.Post;
+import LDHD.study.domain.post.web.controller.dto.*;
 import LDHD.study.domain.user.User;
 import LDHD.study.domain.post.repository.PostRepository;
 import LDHD.study.domain.user.repository.UserRepository;
-import LDHD.study.domain.post.web.controller.dto.CreatePostRequest;
-import LDHD.study.domain.post.web.controller.dto.CreatePostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 
 
@@ -42,12 +42,6 @@ public class PostService {
         //jpaRepository의 save() 메서드를 호출해 DB에 저장 후 savedPost 객체를 반환
         Post savedPost = postRepository.save(post);
 
-//        return new CreatePostResponse(
-//                request.getTitle(),
-//                request.getContent(),
-//                request.getCategory(),
-//                user.getId());
-
         // @Getter -> get()을 통해 응답 반환
         return new CreatePostResponse(
                 savedPost.getId(),
@@ -60,4 +54,38 @@ public class PostService {
     *1. 패키지 구조 오류. /repository/service로 되어있었음
     *2. Post.java에서 @Getter 설정이 되어 있지않아 .get()메서드 호출 불가했음
     */
+
+    // 게시물 삭제 기능
+    public DeletePostResponse deletePost(Long postId) {
+
+        //게시물 정보가 없을 때 예외 처리(에러코드에 POST_NOT_FOUND가 없어 임시로 USER_NOT_FOUND사용함)
+        if(!postRepository.existsById(postId)){
+            throw new GeneralException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        //postRepository의 deleteById() 메서드 호출
+        postRepository.deleteById(postId);
+
+        //삭제 응답 반환
+        return new DeletePostResponse(postId);
+    }
+
+
+    //게시물 수정 기능
+    public UpdatePostResponse updatePost(Long postId, UpdatePostRequest request) {
+
+        //게시물 정보가 없을 때 예외 처리
+        Post post = postRepository.findById(postId).orElseThrow(()->
+                new GeneralException(ErrorCode.USER_NOT_FOUND));
+
+        //Post.java에서 생성한 Getter/Setter 이용
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+        post.setCategory(request.getCategory());
+
+        postRepository.save(post);
+        //DB에 값 저장
+
+        return new UpdatePostResponse(postId);
+    }
 }

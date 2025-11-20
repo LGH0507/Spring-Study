@@ -2,6 +2,7 @@ package LDHD.study.domain.user.web.controller;
 
 import LDHD.study.common.response.ErrorCode;
 import LDHD.study.common.response.GlobalResponse;
+import LDHD.study.common.response.SuccessCode;
 import LDHD.study.domain.user.service.UserService;
 import LDHD.study.domain.user.web.controller.dto.CreateUserRequest;
 import LDHD.study.domain.user.web.controller.dto.CreateUserResponse;
@@ -30,21 +31,21 @@ public class UserController {
 
     @PostMapping // PostMapping : 말 그대로 POST 방식으로 오는 요청을 이 메소드로 매핑해준다.
     //매개변수(CreateUserRequest)의 @RequestBody를 통해 JSON 데이터가 Java 객체로 역직렬화 된다.
-    public ResponseEntity<?>addUser(@RequestBody CreateUserRequest createUserRequest){
+    public ResponseEntity<GlobalResponse>addUser(@RequestBody CreateUserRequest createUserRequest){
 
         // 이렇게 받은 json 데이터를 DTO를 통해 Service에게 전달한다.
         CreateUserResponse response = userService.addUser(createUserRequest);
 
-        return ResponseEntity.ok(response);
+        return GlobalResponse.onSuccess(SuccessCode.CREATED, response);
 
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?>addUser(@PathVariable Long userId){
+    public ResponseEntity<GlobalResponse>deleteUser(@PathVariable Long userId){
 
         userService.deleteUser(userId);
 
-        return ResponseEntity.ok().build();
+        return GlobalResponse.onSuccess(SuccessCode.DELETED);
     }
 
     /**
@@ -69,10 +70,10 @@ public class UserController {
      * @return
      */
     @PutMapping("/{userId}")
-    public ResponseEntity<?>updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request){
+    public ResponseEntity<GlobalResponse>updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request){
 
         userService.updateUser(userId, request, "Updated Successfully!");
 
-        return ResponseEntity.ok().build();
+        return GlobalResponse.onSuccess(SuccessCode.UPDATED, request);
     }
 }

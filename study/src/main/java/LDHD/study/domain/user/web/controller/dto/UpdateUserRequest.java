@@ -13,7 +13,7 @@ public class UpdateUserRequest {
     String name;
     String password;
     String address;
-
+    String email;
     int age;
 
 }

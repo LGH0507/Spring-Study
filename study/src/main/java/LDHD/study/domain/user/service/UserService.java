@@ -21,7 +21,8 @@ public class UserService {
         User user = new User(request.getName(),
                 request.getPassword(), // @Getter로 인해 메소드를 선언하지 않아도 사용 가능
                 request.getAddress(),
-                request.getAge()
+                request.getAge(),
+                request.getEmail()
         );
 
         if(userRepository.existsByEmail((request.getEmail()))){
@@ -41,6 +42,15 @@ public class UserService {
     //사용자 정보 삭제
     public DeleteUserResponse deleteUser(Long userId){
 
+        /* 사용자 정보가 존재하지 않는 경우 GeneralException 통해 예외처리
+        1. 사용자가 없으면 GeneralException 을 던짐
+        2. GlobalExceptionHandler가 예외를 처리
+        3. 에러코드 USER_NOT_FOUND 반환
+         */
+        if(!userRepository.existsById(userId)){
+            throw new GeneralException(ErrorCode.USER_NOT_FOUND);
+        }
+
         userRepository.deleteById(userId);
 
         return new DeleteUserResponse(userId);
@@ -49,12 +59,16 @@ public class UserService {
     //사용자 정보 수정
     public UpdateUserResponse updateUser(Long userId, UpdateUserRequest request, String message){
 
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userRepository.findById(userId).orElseThrow(()
+                -> new GeneralException(ErrorCode.USER_NOT_FOUND));
+
+
 
         user.setName(request.getName());
         user.setPassword(request.getPassword());
         user.setAddress(request.getAddress());
         user.setAge(request.getAge());
+        user.setEmail(request.getEmail());
 
         userRepository.save(user);
 
