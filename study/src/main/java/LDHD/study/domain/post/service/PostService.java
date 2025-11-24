@@ -12,6 +12,10 @@ import LDHD.study.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 
 @RequiredArgsConstructor //
@@ -134,5 +138,15 @@ public class PostService {
                 user.getId(), // 댓글 작성자
                 savedComment.getContent()
         );
-    }
 }
+        // 게시물 목록 조회
+        public GetPostListResponse getPostList(){
+
+            List<Post> posts = postRepository.findAll();
+            List<GetPostList> postList = posts.stream()
+                    .map(post -> new GetPostList(post))
+                    .collect(toList());
+
+            return new GetPostListResponse(postList);
+        }
+    }
