@@ -5,6 +5,7 @@ import LDHD.study.common.response.GlobalResponse;
 import LDHD.study.common.response.SuccessCode;
 import LDHD.study.domain.post.service.PostService;
 import LDHD.study.domain.post.web.controller.dto.*;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,15 @@ public class PostController {
         // postService의 createPost 로직 실행 후 response로 반환
 
          return GlobalResponse.onSuccess(SuccessCode.CREATED, response);
+    }
+
+    // 게시물 목록 조회 기능 구현
+    @GetMapping
+    public ResponseEntity<GlobalResponse>getPostList(){
+
+        GetPostListResponse response = postService.getPostList();
+
+        return GlobalResponse.onSuccess(SuccessCode.OK, response);
     }
 
     // 게시물 삭제 기능 구현
