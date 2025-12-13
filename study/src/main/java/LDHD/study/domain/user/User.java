@@ -1,16 +1,14 @@
 package LDHD.study.domain.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Setter
+@Getter
 public class User {
 
     @Id
@@ -38,8 +36,8 @@ public class User {
 
     int age;
 
-
-    public User(String name, String password, String address, int age, String email) {
+    @Builder
+    public User(String name, String password, String address, int age, String email ) {
 
         this.name = name;
         this.password = password;
