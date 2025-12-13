@@ -7,6 +7,7 @@ import LDHD.study.domain.user.service.UserService;
 import LDHD.study.domain.user.web.controller.dto.CreateUserRequest;
 import LDHD.study.domain.user.web.controller.dto.CreateUserResponse;
 import LDHD.study.domain.user.web.controller.dto.UpdateUserRequest;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Operation(summary = "새로운 사용자 정보 등록", description = "회원가입 요청 데이터를 받아 새로운 데이터를 DB에 저장합니다.")
     @PostMapping // PostMapping : 말 그대로 POST 방식으로 오는 요청을 이 메소드로 매핑해준다.
     //매개변수(CreateUserRequest)의 @RequestBody를 통해 JSON 데이터가 Java 객체로 역직렬화 된다.
     public ResponseEntity<GlobalResponse>addUser(@RequestBody CreateUserRequest createUserRequest){
@@ -40,6 +42,7 @@ public class UserController {
 
     }
 
+    @Operation(summary = "기존 사용자 정보 삭제", description = "DB에 저장되어 있는 사용자 정보를 삭제합니다.")
     @DeleteMapping("/{userId}")
     public ResponseEntity<GlobalResponse>deleteUser(@PathVariable Long userId){
 
@@ -69,6 +72,8 @@ public class UserController {
      * @param request
      * @return
      */
+
+    @Operation(summary = "사용자 정보 수정", description = "DB에 저장되어 있는 사용자 정보를 수정합니다.")
     @PutMapping("/{userId}")
     public ResponseEntity<GlobalResponse>updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request){
 
