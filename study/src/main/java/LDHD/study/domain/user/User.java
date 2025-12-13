@@ -2,7 +2,10 @@ package LDHD.study.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,10 +31,10 @@ public class User {
     String email;
 
     @Column
-    private LocalDateTime created_at;
+    LocalDateTime created_at;
 
     @Column
-    private LocalDateTime updated_at;
+    LocalDateTime updated_at;
 
 
     int age;

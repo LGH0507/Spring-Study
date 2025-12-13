@@ -34,12 +34,16 @@ public class Post {  // 제목,작성자,카테고리,본문,작성일자,
     @Column
     LocalDateTime created_at;
 
-    public Post(String  title, User user, String category, String content, LocalDateTime created_at) {
+    @Column
+    LocalDateTime updated_at;
+
+    public Post(String  title, User user, String category, String content, LocalDateTime created_at, LocalDateTime updated_at) {
         this.title = title;
         this.user = user;
         this.category = category;
         this.content = content;
         this.created_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
     }
 
 }
